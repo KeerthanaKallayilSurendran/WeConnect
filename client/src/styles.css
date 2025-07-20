@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+.auth-side-col{
+    background-image: url("../public/login.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}       
+
+.auth-head{
+    color: #3C9DEE;
+    font-size: 50px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}

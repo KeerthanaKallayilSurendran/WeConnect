@@ -5,11 +5,11 @@ const jwt = require('jsonwebtoken')
 
 // register a new user
 exports.registerUserController = async(req,res)=>{
-    // console.log("Inside register user controller");
-    const {username,email,password} = req.body
-    // console.log(username,email,password);
+    console.log("Inside register user controller");
     
     try {
+        const {username,email,password} = req.body
+        console.log(username,email,password);
         const existingUser = await users.findOne({email})
         // console.log(existingUser);
         
@@ -31,9 +31,11 @@ exports.registerUserController = async(req,res)=>{
 exports.loginController = async(req,res)=>{
     // console.log("Inside login controller");
     const {email, password} = req.body
+    // console.log(email,password);
+    
     try {
         const existingUser = await users.findOne({email})
-        // console.log(existingUser);
+        console.log(existingUser);
         if(existingUser){
             const isPasswordMatch = await bcrypt.compare(password, existingUser.password)
             // console.log(isPasswordMatch);
@@ -58,19 +60,17 @@ exports.googleLoginController = (req, res, next) => {
 
 exports.googleCallbackController = (req, res, next) => {
   passport.authenticate('google', { session: false }, async (err, user) => {
-    // console.log(user,13);
-    
     if (err || !user) {
-      return res.status(401).json('Google login failed');
+      return res.redirect(`http://localhost:4200/login?error=Google%20Login%20Failed`);
     }
 
     try {
-      const token = jwt.sign({ userId: user._id }, process.env.JWT_PASSWORD, { expiresIn: '1d' }
-      );
+      const token = jwt.sign({ userId: user._id }, process.env.JWT_PASSWORD, { expiresIn: '1d' });
 
-      res.status(200).json({user,token});
+      // Redirect to Angular with token
+      res.redirect(`http://localhost:4200/oauth-success?token=${token}`);
     } catch (error) {
-      res.status(500).json(err);
+      res.redirect(`http://localhost:4200/login?error=Something%20went%20wrong`);
     }
   })(req, res, next);
 };

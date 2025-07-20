@@ -3,21 +3,36 @@
         <div class="auth-side-col col-6">
         </div>
         <div class="col-6 d-flex justify-content-center align-items-center flex-column">
-            <h1 class="auth-head">Register</h1>
-            <p class="fs-3 mb-4">Welcome to WeConnect</p>
-            <div style="width: 55%;" class="mb-5">
+            <h1 class="auth-head">Login</h1>
+            <p class="fs-3 mb-4">Welcome back to WeConnect</p>
+            <form style="width: 55%;" class="mb-5" [formGroup]="loginForm" (ngSubmit)="login()">
                 <div class="form-floating mb-3">
-                    <input type="email" class="form-control" placeholder="abc@gmail.com">
+                    <input type="email" formControlName="email" class="form-control" placeholder="abc@gmail.com">
                     <label for="email">Email</label>
+                    @if (loginForm.controls['email'].touched) {
+                        <div class="text-danger fw-bolder">
+                            @if(loginForm.controls['email'].errors?.['required']){
+                                <span>Email is required</span>
+                            }
+                            @if (loginForm.controls['email'].errors?.['email']) {
+                                <span>Email is not valid</span>
+                            }
+                        </div>   
+                    }
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="password" class="form-control" placeholder="abc@gmail.com">
+                    <input type="password" class="form-control" formControlName="password" placeholder="abc@gmail.com">
                     <label for="password">Password</label>
+                        <div class="text-danger fw-bolder fs-6">
+                            @if(loginForm.controls['password'].errors?.['required']&&loginForm.controls['password'].touched){
+                                <span>Password is required</span>
+                            }
+                        </div>   
                 </div>
                 <div class="text-end mb-3 fw-bolder">Forgot Password?</div>
-                <div class="text-center"><button class="btn btn-success fs-5">Login</button></div>
-            </div>
-            <button class="btn"><img src="https://img.icons8.com/?size=40&id=17949&format=png&color=000000" alt="">Sigin with Google</button>
+                <div class="text-center"><button type="submit" class="btn btn-success fs-5">Login</button></div>
+            </form>
+            <button class="btn" (click)="signinGoogle()"><img src="https://img.icons8.com/?size=40&id=17949&format=png&color=000000" alt="">Sigin with Google</button>
             <hr class="w-50">
             <div class="text-center mt-3">New User? Register</div>
         </div>

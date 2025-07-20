@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config()
 
 const express = require('express')
 const cors = require('cors')
@@ -8,12 +8,10 @@ require('./config/connection')
 require('./config/passport.google')
 
 const smServer = express()
-
 smServer.use(cors())
 smServer.use(express.json())
 smServer.use(passport.initialize());
 smServer.use(router)
-
 const PORT = process.env.PORT || 3000
 
 smServer.listen(PORT, ()=>{

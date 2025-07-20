@@ -1,21 +1,55 @@
 <div class="container-fluid vh-100">
     <div class="row h-100">
-        <div class="auth-side-col col-6">
+        <div class="auth-side-col col-6 d-none d-lg-block">
         </div>
-        <div class="col-6 d-flex justify-content-center align-items-center flex-column">
+        <div class="col-12 col-lg-6 d-flex justify-content-center align-items-center flex-column">
             <h1 class="auth-head">Register</h1>
             <p class="fs-3 mb-4">Welcome to WeConnect</p>
-            <div style="width: 55%;" class="mb-5">
+            <form style="width: 55%;" class="mb-5" (ngSubmit)="register()" [formGroup]="userForm">
                 <div class="form-floating mb-3">
-                    <input type="email" class="form-control" placeholder="abc@gmail.com">
+                    <input type="text" formControlName="username" class="form-control" placeholder="John Willam">
+                    <label for="username">Username</label>
+                    @if (userForm.controls['username'].touched) {
+                        <div class="text-danger fw-bolder">
+                            @if(userForm.controls['username'].errors?.['required']){
+                                <span>Username is required</span>
+                            }
+                            @if (userForm.controls['username'].errors?.['maxLenngth']) {
+                                <span>Maximum 30 Characters</span>
+                            }
+                        </div>   
+                    }
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="email" formControlName="email" class="form-control" placeholder="abc@gmail.com">
                     <label for="email">Email</label>
+                    @if (userForm.controls['email'].touched) {
+                        <div class="text-danger fw-bolder">
+                            @if(userForm.controls['email'].errors?.['required']){
+                                <span>Email is required</span>
+                            }
+                            @if (userForm.controls['email'].errors?.['email']) {
+                                <span>Email is not valid</span>
+                            }
+                        </div>   
+                    }
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="password" class="form-control" placeholder="abc@gmail.com">
+                    <input type="password" class="form-control" formControlName="password" placeholder="abc@gmail.com">
                     <label for="password">Password</label>
+                        @if (userForm.controls['password'].touched) {
+                            <div class="text-danger fw-bolder fs-6">
+                                @if(userForm.controls['password'].errors?.['required']){
+                                    <span>Password is required</span>
+                                }
+                                @if (userForm.controls['password'].errors?.['pattern']) {
+                                    <span>Password must be 8–16 characters long and include at least one uppercase letter, one lowercase letter, one digit, and one special character (!&#64;#$&*).</span>
+                                }
+                            </div>   
+                        }
                 </div>
-                <div class="text-center"><button class="btn btn-success fs-5">Register</button></div>
-            </div>
+                <div class="text-center"><button type="submit" class="btn btn-success fs-5">Register</button></div>
+            </form>
             <button class="btn"><img src="https://img.icons8.com/?size=40&id=17949&format=png&color=000000" alt="">Sign Up with Google</button>
             <hr class="w-50">
             <div class="text-center mt-3">Already have an account? Login</div>
